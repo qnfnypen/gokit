@@ -45,6 +45,7 @@ func GenerateLogger(dirPath string, cycle string) (zerolog.Logger, error) {
 		dirPath = h + ch
 	}
 
+	dirPath = filepath.Dir(dirPath)
 
 	switch strings.ToLower(cycle) {
 	case "day":
