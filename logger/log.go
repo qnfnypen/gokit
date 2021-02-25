@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"time"
 
@@ -47,15 +48,25 @@ func GenerateLogger(dirPath string, cycle string) (zerolog.Logger, error) {
 
 	dirPath = filepath.Dir(dirPath)
 
+	var s string
+	switch runtime.GOOS{
+	case "windows":
+		s = `\`
+	case "linux":
+		s = `/`
+	default:
+		s = `/`
+	}
+
 	switch strings.ToLower(cycle) {
 	case "day":
-		filePath = fmt.Sprintf("%s/%s.log", dirPath, time.Now().Format("20060102"))
+		filePath = fmt.Sprintf(`%s%s%s.log`, dirPath, s,time.Now().Format("20060102"))
 	case "month":
-		filePath = fmt.Sprintf("%s/%s.log", dirPath, time.Now().Format("200601"))
+		filePath = fmt.Sprintf(`%s%s%s.log`, dirPath, s,time.Now().Format("200601"))
 	case "year":
-		filePath = fmt.Sprintf("%s/%s.log", dirPath, time.Now().Format("200601"))
+		filePath = fmt.Sprintf(`%s%s%s.log`, dirPath, s,time.Now().Format("200601"))
 	default:
-		filePath = fmt.Sprintf("%s/log.log", dirPath)
+		filePath = fmt.Sprintf(`%s%slog.log`, s,dirPath)
 	}
 
 	f, err := os.OpenFile(filePath, os.O_CREATE|os.O_APPEND|os.O_RDONLY, 0666)
