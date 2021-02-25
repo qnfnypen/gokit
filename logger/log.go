@@ -46,7 +46,10 @@ func GenerateLogger(dirPath string, cycle string) (zerolog.Logger, error) {
 	}
 
 	dirPath = filepath.Dir(dirPath)
-	os.MkdirAll(dirPath, 0666)
+	err := os.MkdirAll(dirPath, 0666)
+	if err != nil {
+		return zerolog.Logger{}, err
+	}
 
 	switch strings.ToLower(cycle) {
 	case "day":
