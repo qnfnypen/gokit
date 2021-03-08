@@ -57,12 +57,12 @@ func GenerateLogger(dirPath string, cycle string) (zerolog.Logger, error) {
 	case "month":
 		filePath = fmt.Sprintf(`%s/%s.log`, dirPath, time.Now().Format("200601"))
 	case "year":
-		filePath = fmt.Sprintf(`%s/%s.log`, dirPath, time.Now().Format("200601"))
+		filePath = fmt.Sprintf(`%s/%s.log`, dirPath, time.Now().Format("2006"))
 	default:
 		filePath = fmt.Sprintf(`%s/log.log`, dirPath)
 	}
 
-	f, err := os.OpenFile(filePath, os.O_CREATE|os.O_APPEND|os.O_RDONLY, 0666)
+	f, err := os.OpenFile(filePath, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
 	if err != nil {
 		return zerolog.Logger{}, err
 	}
